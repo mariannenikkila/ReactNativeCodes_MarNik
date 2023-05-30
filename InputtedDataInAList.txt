@@ -1,0 +1,158 @@
+import React, {useState, useEffect} from 'react';
+import { Button, StyleSheet, Text, TextInput, FlatList, View, TouchableOpacity, Modal, VirtualizedList } from 'react-native';
+
+
+const App=()=>{
+  const [visibility, setVisibility]=useState(false);
+  const [newBoot, setBoot]=useState("");
+  const [newSize, setSize] = useState();
+  const [bootList, addBoot]=useState(["0001: Jalkine","0002: Jalkine2"]);
+  const bootInpuHandler=(enteredText)=>{
+    setBoot(enteredText);
+  }
+  const sizeInputHandler = enteredText => {
+    setSize(enteredText);
+  };
+  const addBootToList=()=>{
+    if (newBoot.trim().length>0){
+      addBoot(bootList=>[...bootList, newSize + ': ' +newBoot.trim()]);
+      setBoot("");
+      setSize("");
+    }
+    setVisibility(false);
+  }
+  const keyHandler=(item, index)=>{
+    return index.toString();
+  }
+  const deleteItem=(removeIndex)=>{
+    addBoot(bootList=>{return bootList.filter((boot, id)=>{
+                      return id!=removeIndex;
+                      })});
+  }
+  const showInputView=()=>{
+    setVisibility(true);
+  }
+  const cancelBoot=()=>{
+    setSize("");
+    setBoot("");
+    
+  }
+  const renderBoot=(item)=>{
+    return (
+      <TouchableOpacity activeOpacity={0.8} onLongPress={()=>deleteItem(item.index)}>
+        <View style={styles.listItemStyle}>
+          <Text>{item.item}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+return (
+    <View style={styles.container}>
+      
+        <View style={styles.formView2}>
+          <TextInput
+              style={styles.inputStyle2}
+              onChangeText={sizeInputHandler}
+              placeholder="Size.."
+              value={newSize}
+              />
+          <TextInput style={styles.inputStyle} placeholder="Boot.." 
+              onChangeText={bootInpuHandler}
+              value={newBoot}
+              />
+        </View>
+        <View style={styles.formView}>  
+          <View style={styles.okcancelStyle}>
+            <View style={styles.buttonView}><Button style={styles.buttonStyle} title='Ok' onPress={addBootToList}/></View>
+            <View style={styles.buttonView}><Button style={styles.buttonStyle} title='Cancel' onPress={cancelBoot}/></View>
+          </View>
+        </View>
+        <View style={styles.container}>
+        <Text>Boot list</Text>
+        <FlatList style={styles.flatliststyle}
+          keyExtractor={keyHandler}
+          data={bootList}
+          renderItem={renderBoot}
+        />
+        </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  flatliststyle:{
+    width:'80%',
+    backgroundColor:'yellow',
+  },
+  listItemStyle:{
+    margin: 2,
+    borderWidth:1,
+    borderColor:"red",
+    padding:2,
+    backgroundColor:"lightgreen",
+    width:"80%",
+    alignSelf:"center",
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width:"100%",
+  },
+  okcancelStyle:{
+    flexDirection:"row",
+    width:"60%",
+    justifyContent:"space-around",
+  },
+  formView:{
+    // flex:1,
+    //flexDirection:"row",
+    backgroundColor:"white",
+    alignItems:"center",
+    justifyContent:"space-around",
+    marginTop:20,
+    width:"100%",
+  },
+  formView2:{
+    //flex:1,
+    flexDirection:"row",
+    backgroundColor:"white",
+    alignItems:"center",
+    justifyContent:"center",
+    width:"100%",
+  },
+  listStyle:{
+    flex:8,
+    alignItems:"center",
+    backgroundColor:"#eee",
+    borderColor:"green",
+    borderWidth:2,
+    width:"100%",
+  },
+  inputStyle:{
+    backgroundColor:"#abc",
+    borderColor:"black",
+    borderWidth:2,
+    margin:2,
+    padding:5,
+    width:"50%",
+  },
+  inputStyle2:{
+    backgroundColor:"#abc",
+    borderColor:"black",
+    borderWidth:2,
+    margin:2,
+    padding:5,
+    width:"10%",
+  },
+  buttonStyle:{
+    margin:2,
+    padding:5,
+  },
+  buttonView:{
+    width:80,
+  }
+});
+
+export default App;

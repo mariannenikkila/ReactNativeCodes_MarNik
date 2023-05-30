@@ -1,0 +1,47 @@
+import React, {useState} from 'react';
+import { Button, StyleSheet, TextInput, View } from 'react-native';
+
+
+export default function App() {
+  return (
+  <View>
+    <View style={styles.container}>
+      <View style={styles.inputStyle}>
+        <TextInput/>
+      </View>
+      <View style={styles.inputStyle}>
+        <TextInput/>
+      </View>
+    </View>
+    <View style={styles.container}>
+      <View style={styles.buttonStyle}>
+        <Button title='OK'/>
+      </View>
+      <View style={styles.buttonStyle}>
+        <Button title='CANCEL'/>
+      </View>
+    </View>
+  </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection:"row",
+  },
+  inputStyle:{
+    backgroundColor:"#abc",
+    borderColor:"black",
+    borderWidth:2,
+    margin:2,
+    padding:5,
+    width:"40%",
+  },
+  buttonStyle: {
+    marginHorizontal: 20,
+    marginTop: 5,
+    margin:2,
+    padding:5,
+    width:"30%",
+  }
+});
